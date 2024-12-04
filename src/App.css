@@ -13,6 +13,8 @@
   border: 1px solid #333;
   margin-bottom: 20px;
   margin-right: 50px;
+  margin-left: 50px;
+  
 }
 
 .controls {
@@ -73,17 +75,17 @@ button:disabled {
   width: 240px; /* Larghezza fissa */
   height: 50px;
   border-radius: 30px;
-  margin-left: 120px;
+  
   display: flex;
   flex-direction: column;
-  align-items: left;
+  align-items: center;
   gap: 10px;
 }
 
 .color-selector {
   display: flex;
   gap: 10px;
-  margin-left: 58px;
+  margin-left: 108px;
 }
 
 .color-selector button {
@@ -169,3 +171,14 @@ button:disabled {
   user-select: none; /* Disabilita la selezione dei pezzi */
 }
 
+.back_arrow {
+  user-select: none; /* Disabilita la selezione del testo */
+  font-size: 2rem; /* Dimensione di base */
+  transition: transform 0.3s ease, color 0.3s ease; /* Transizione fluida */
+  cursor: pointer; /* Mostra il puntatore */
+}
+
+.back_arrow:hover {
+  transform: scale(1.2); /* Ingrandisce l'icona */
+  color: blue; /* Cambia il colore */
+}
