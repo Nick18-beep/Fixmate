@@ -1,0 +1,128 @@
+
+
+.chessboard-wrapper {
+  display: flex;
+  justify-content: flex-start; /* Allinea a sinistra */
+}
+
+
+.chessboard {
+  display: grid;
+  grid-template-columns: repeat(8, 60px);
+  grid-template-rows: repeat(8, 60px);
+  padding: 10px;
+  border: 1px solid #333;
+  margin-bottom: 20px;
+  margin-left: 0; /* Assicurati che non ci sia margine a sinistra */
+  margin-right: auto; /* Spinge verso sinistra */
+}
+
+.controls {
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  gap: 20px;
+  width: 100%;
+}
+
+.buttons {
+  display: flex;
+  gap: 10px;
+}
+
+button {
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+}
+
+button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+.piece-palette {
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  gap: 10px;
+}
+
+.color-selector {
+  display: flex;
+  gap: 10px;
+}
+
+.color-selector button {
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: #ddd;
+}
+
+.color-selector button.selected {
+  background-color: #4caf50;
+  color: white;
+}
+
+.pieces {
+  display: flex;
+  gap: 10px;
+}
+
+.pieces .piece {
+  font-size: 2rem;
+  cursor: grab;
+}
+
+.pieces .piece:active {
+  cursor: grabbing;
+}
+
+.square {
+  width: 60px;
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.square.light {
+  background-color: #f0d9b5;
+}
+
+.square.dark {
+  background-color: #b58863;
+}
+
+.piece {
+  font-size: 2rem;
+  cursor: grab;
+}
+
+.piece:active {
+  cursor: grabbing;
+}
+
+.dragged-piece {
+  position: fixed;
+  pointer-events: none;
+  font-size: 2rem;
+  z-index: 1000;
+}
+
+
+.piece-palette {
+  user-select: none; /* Disabilita la selezione nella barra inferiore */
+}
+
+.pieces .piece {
+  font-size: 2rem;
+  cursor: grab;
+  user-select: none; /* Disabilita la selezione dei pezzi */
+}
