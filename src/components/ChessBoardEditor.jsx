@@ -163,26 +163,32 @@ const ChessBoardEditor = () => {
                 ))
               )}
             </div>
+
+            
+                  
+            <div className="buttons">
+                    <button onClick={clearBoard}>Clear Board</button>
+                    <button onClick={resetBoard}>Starting position</button>
+                    <button onClick={undoLastAction} disabled={historyIndex === 0}>
+                      Undo
+                    </button>
+                    <button onClick={redoLastAction} disabled={historyIndex === boardHistory.length - 1}>
+                      Redo
+                    </button>
       </div>
+           
+
+
+      </div>
+
+
+
+      
     
 
       <div className="controls">
-        <div className="buttons">
-          <button onClick={clearBoard}>Clear Board</button>
-          <button onClick={resetBoard}>Reset Board</button>
-          <button onClick={undoLastAction} disabled={historyIndex === 0}>
-            Undo
-          </button>
-          <button
-            onClick={redoLastAction}
-            disabled={historyIndex === boardHistory.length - 1}
-          >
-            Redo
-          </button>
-        </div>
         
-        <div className="piece-palette">
-  <div className="color-selector">
+      <div className="color-selector" >
     <button
       className={selectedColor === 'white' ? 'selected' : ''}
       onClick={() => setSelectedColor('white')}
@@ -196,6 +202,8 @@ const ChessBoardEditor = () => {
       Black
     </button>
   </div>
+        <div className="piece-palette">
+  
   <div className="pieces">
     {Object.keys(PIECES.white).map((piece) => (
       <div
@@ -220,7 +228,7 @@ const ChessBoardEditor = () => {
           className="dragged-piece"
           style={{
             top: mousePosition.y - 20,
-            left: mousePosition.x - 20,
+            left: mousePosition.x -20,
           }}
         >
           {PIECES[draggedPiece.color][draggedPiece.piece]}

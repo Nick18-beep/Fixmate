@@ -10,11 +10,9 @@
   display: grid;
   grid-template-columns: repeat(8, 60px);
   grid-template-rows: repeat(8, 60px);
-  padding: 10px;
   border: 1px solid #333;
   margin-bottom: 20px;
-  margin-left: 0; /* Assicurati che non ci sia margine a sinistra */
-  margin-right: auto; /* Spinge verso sinistra */
+  margin-right: 50px;
 }
 
 .controls {
@@ -27,17 +25,42 @@
 
 .buttons {
   display: flex;
-  gap: 10px;
+  flex-direction: column; /* Dispone i pulsanti in colonna */
+  gap: 10px; /* Spazio tra i pulsanti */
+  align-items: flex-start; /* Allinea i pulsanti a sinistra */
 }
 
+
+ 
+	
+
+
 button {
-  padding: 10px 20px;
+  width: 180px; /* Larghezza fissa */
+  height: 50px;
+  padding: 12px 24px;
   font-size: 16px;
+  font-family: Arial, sans-serif;
+  font-weight: bold;
   cursor: pointer;
-  background-color: #4caf50;
+  background: linear-gradient(135deg, #4caf50, #388e3c);
   color: white;
   border: none;
-  border-radius: 5px;
+  border-radius: 30px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+button:hover {
+  background: linear-gradient(135deg, #66bb6a, #43a047);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+  transform: translateY(-2px);
+}
+
+button:active {
+  transform: translateY(2px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background: linear-gradient(135deg, #388e3c, #2e7d32);
 }
 
 button:disabled {
@@ -46,6 +69,11 @@ button:disabled {
 }
 
 .piece-palette {
+  border: 1px solid #333;
+  width: 240px; /* Larghezza fissa */
+  height: 50px;
+  border-radius: 30px;
+  margin-left: 120px;
   display: flex;
   flex-direction: column;
   align-items: left;
@@ -55,6 +83,7 @@ button:disabled {
 .color-selector {
   display: flex;
   gap: 10px;
+  margin-left: 58px;
 }
 
 .color-selector button {
@@ -103,17 +132,30 @@ button:disabled {
 .piece {
   font-size: 2rem;
   cursor: grab;
+  display: inline-block;
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
 }
 
 .piece:active {
   cursor: grabbing;
+  
 }
+
+.piece:hover {
+  transform: scale(1.1); /* Leggero ingrandimento al passaggio del mouse */
+  
+}
+
 
 .dragged-piece {
   position: fixed;
   pointer-events: none;
   font-size: 2rem;
   z-index: 1000;
+  transform: scale(1.3); /* I pezzi trascinati sembrano leggermente più grandi */
+  
+  transition: transform 0.2s ease; /* Mantiene transizioni fluide */
+  
 }
 
 
@@ -126,3 +168,4 @@ button:disabled {
   cursor: grab;
   user-select: none; /* Disabilita la selezione dei pezzi */
 }
+
