@@ -1,19 +1,21 @@
 import React from 'react';
 import ChessBoardEditor from './components/ChessBoardEditor'; 
 import Navbar from './components/NavBar';
-import { Container, Row, Col } from "react-bootstrap";
+import ChatAi from './components/ChatAi';
 import './App.css';
 
 const App = () => {
   return (
-    <Container fluid>
-      
+    <div >      
       <Navbar />
-        
-      <ChessBoardEditor />
-       
+      <div className="content-wrapper">
+          <ChessBoardEditor />
 
-    </Container>
+        <div className="chat-container">
+          <ChatAi />
+        </div>
+      </div>
+    </div>
   );
 };
 

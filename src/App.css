@@ -2,7 +2,7 @@
 
 .chessboard-wrapper {
   display: flex;
-  justify-content: flex-start; /* Allinea a sinistra */
+  align-items: left;
 }
 
 
@@ -181,4 +181,27 @@ button:disabled {
 .back_arrow:hover {
   transform: scale(1.2); /* Ingrandisce l'icona */
   color: blue; /* Cambia il colore */
+}
+
+
+
+
+
+
+/* Wrapper per i componenti affiancati */
+.content-wrapper {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+
+/* Contenitore della chat */
+.chat-container {
+  flex: 1; /* Occupa 1/3 dello spazio */
+  display: flex;
+  justify-content: right;
+  overflow: hidden;
+  margin-top: 50px;
+  margin-right: 20px;
 }

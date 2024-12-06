@@ -10,6 +10,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@chatscope/chat-ui-kit-react": "^2.0.3",
+    "@google/generative-ai": "^0.21.0",
     "bootstrap": "^5.3.3",
     "fixmate": "file:",
     "lucide-react": "^0.464.0",
