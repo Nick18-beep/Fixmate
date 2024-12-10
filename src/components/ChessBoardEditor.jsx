@@ -1,7 +1,7 @@
 import React, { useState ,useEffect} from 'react';
 import '../App.css';
 import { Container, Row, Col } from "react-bootstrap";
-import { TbArrowBackUp } from "react-icons/tb";
+import { TbArrowBackUp,TbTrash } from "react-icons/tb";
 
 const PIECES = {
   white: {
@@ -81,6 +81,7 @@ const ChessBoardEditor = () => {
   }, [draggedPiece]);
   
   const handleGlobalMouseUp = (e) => {
+    if (!draggedPiece) return;
     const chessboard = document.querySelector('.chessboard');
     const palette = document.querySelector('.piece-palette');
 
@@ -332,6 +333,11 @@ const ChessBoardEditor = () => {
   </div>
 
 </div>
+
+<TbTrash 
+          className="trash-icon" 
+          style={{ fontSize: '2rem', cursor: 'pointer' }} 
+        />
 </div>
 
 
