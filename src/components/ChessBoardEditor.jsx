@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState ,useEffect} from 'react';
 import '../App.css';
 import { Container, Row, Col } from "react-bootstrap";
 import { TbArrowBackUp } from "react-icons/tb";
@@ -64,12 +64,62 @@ const ChessBoardEditor = () => {
   const [boardHistory, setBoardHistory] = useState([initialBoard]);
   const [historyIndex, setHistoryIndex] = useState(0);
   const [selectedColor, setSelectedColor] = useState('white');
+  const [originalPosition, setOriginalPosition] = useState(null);
+
+
+
 
   const handleMouseMove = (e) => {
     setMousePosition({ x: e.clientX, y: e.clientY });
   };
 
+  useEffect(() => {
+    window.addEventListener('mouseup', handleGlobalMouseUp);
+    return () => {
+      window.removeEventListener('mouseup', handleGlobalMouseUp);
+    };
+  }, [draggedPiece]);
+  
+  const handleGlobalMouseUp = (e) => {
+    const chessboard = document.querySelector('.chessboard');
+    const palette = document.querySelector('.piece-palette');
 
+    const chessboardRect = chessboard.getBoundingClientRect();
+    const paletteRect = palette.getBoundingClientRect();
+
+    const isOutsideChessboard = 
+      e.clientX < chessboardRect.left || 
+      e.clientX > chessboardRect.right || 
+      e.clientY < chessboardRect.top || 
+      e.clientY > chessboardRect.bottom;
+
+    const isOnPalette = 
+      e.clientX >= paletteRect.left && 
+      e.clientX <= paletteRect.right && 
+      e.clientY >= paletteRect.top && 
+      e.clientY <= paletteRect.bottom;
+
+    if (isOutsideChessboard) {
+      if (isOnPalette && originalPosition) {
+        // Se il pezzo è stato rilasciato sulla palette, aggiorniamo la scacchiera e salviamo lo stato
+        const { row, col } = originalPosition;
+        const newBoard = boardState.map((r, rIdx) =>
+          r.map((c, cIdx) => (rIdx === row && cIdx === col ? null : c))
+        );
+        setBoardState(newBoard);
+        saveBoardState(newBoard); // Salva il nuovo stato della scacchiera
+      } else if (originalPosition) {
+        // Se il pezzo proviene dalla scacchiera e il rilascio avviene fuori dalla scacchiera e fuori dalla palette, ripristina il pezzo
+        const { row, col, piece, color } = originalPosition;
+        const newBoard = boardState.map((r, rIdx) =>
+          r.map((c, cIdx) => (rIdx === row && cIdx === col ? { piece, color } : c))
+        );
+        setBoardState(newBoard);
+      }
+      setDraggedPiece(null);
+      setOriginalPosition(null);
+    }
+  };
 
   
   const areBoardsEqual = (board1, board2) => {
@@ -117,11 +167,18 @@ const ChessBoardEditor = () => {
 
 
   const startDragging = (piece, color, row = null, col = null) => {
-    const newBoard = row !== null && col !== null 
-      ? boardState.map((r, rIdx) =>
-          r.map((c, cIdx) => (rIdx === row && cIdx === col ? null : c))
-        )
-      : [...boardState];
+    let newBoard = boardState;
+
+    if (row !== null && col !== null) {
+      // Se il pezzo proviene dalla scacchiera
+      newBoard = boardState.map((r, rIdx) =>
+        r.map((c, cIdx) => (rIdx === row && cIdx === col ? null : c))
+      );
+      setOriginalPosition({ row, col, piece, color });
+    } else {
+      // Se il pezzo proviene dalla palette
+      setOriginalPosition(null);
+    }
 
     setDraggedPiece({ piece, color });
     setBoardState(newBoard);
