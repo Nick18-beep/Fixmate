@@ -37,7 +37,7 @@
 	
 
 
-button {
+.mybutton {
   width: 180px; /* Larghezza fissa */
   height: 50px;
   padding: 12px 24px;
@@ -53,19 +53,19 @@ button {
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-button:hover {
+.mybutton:hover {
   background: linear-gradient(135deg, #66bb6a, #43a047);
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
   transform: translateY(-2px);
 }
 
-button:active {
+.mybutton:active {
   transform: translateY(2px);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   background: linear-gradient(135deg, #388e3c, #2e7d32);
 }
 
-button:disabled {
+.mybutton:disabled {
   background-color: #cccccc;
   cursor: not-allowed;
 }
@@ -88,7 +88,7 @@ button:disabled {
   margin-left: 108px;
 }
 
-.color-selector button {
+.color-selector .mybutton {
   padding: 10px;
   border: none;
   border-radius: 5px;
@@ -96,7 +96,7 @@ button:disabled {
   background-color: #ddd;
 }
 
-.color-selector button.selected {
+.color-selector .mybutton.selected {
   background-color: #4caf50;
   color: white;
 }

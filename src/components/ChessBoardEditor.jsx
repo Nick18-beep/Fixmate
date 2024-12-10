@@ -274,13 +274,16 @@ const ChessBoardEditor = () => {
             
                   
             <div className="buttons">
-                    <button onClick={clearBoard}>Clear Board</button>
-                    <button onClick={resetBoard}>Starting position</button>
-                   
-                    <button onClick={redoLastAction} disabled={historyIndex === boardHistory.length - 1}>
-                      Redo
-                    </button>
-      </div>
+            <button className="mybutton" onClick={clearBoard}>Clear Board</button>
+            <button className="mybutton" onClick={resetBoard}>Starting position</button>
+            <button 
+              className="mybutton" 
+              onClick={redoLastAction} 
+              disabled={historyIndex === boardHistory.length - 1}
+            >
+              Redo
+            </button>
+        </div>
            
 
 
@@ -293,20 +296,20 @@ const ChessBoardEditor = () => {
 
       <div className="controls">
         
-      <div className="color-selector" >
-    <button
-      className={selectedColor === 'white' ? 'selected' : ''}
-      onClick={() => setSelectedColor('white')}
-    >
-      White
-    </button>
-    <button
-      className={selectedColor === 'black' ? 'selected' : ''}
-      onClick={() => setSelectedColor('black')}
-    >
-      Black
-    </button>
-  </div>
+      <div className="color-selector">
+  <button 
+    className={`mybutton ${selectedColor === 'white' ? 'selected' : ''}`} 
+    onClick={() => setSelectedColor('white')}
+  >
+    White
+  </button>
+  <button 
+    className={`mybutton ${selectedColor === 'black' ? 'selected' : ''}`} 
+    onClick={() => setSelectedColor('black')}
+  >
+    Black
+  </button>
+</div>
 
  <div style={{display:"flex",alignItems:"center",gap:"10px", marginLeft: "130px", }}>
   <TbArrowBackUp className='back_arrow' onClick={undoLastAction} disabled={historyIndex === 0}  style={{
