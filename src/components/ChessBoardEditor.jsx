@@ -186,7 +186,7 @@ const ChessBoardEditor = () => {
   const startDragging = (piece, color, row = null, col = null) => {
     let newBoard = boardState;
 
-    
+    setTrashMode(state=>state=false);
 
     if (row !== null && col !== null) {
       // Se il pezzo proviene dalla scacchiera
