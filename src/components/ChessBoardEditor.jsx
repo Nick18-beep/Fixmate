@@ -65,9 +65,25 @@ const ChessBoardEditor = () => {
   const [historyIndex, setHistoryIndex] = useState(0);
   const [selectedColor, setSelectedColor] = useState('white');
   const [originalPosition, setOriginalPosition] = useState(null);
+  const [trashMode, setTrashMode] = useState(false);
 
 
+  const handlePieceDeletion = (row, col) => {
+    if (trashMode && boardState[row][col]) {
+      const newBoard = boardState.map((r, rIdx) =>
+        r.map((c, cIdx) => (rIdx === row && cIdx === col ? null : c))
+      );
+      saveBoardState(newBoard);
+    }
+  };
+  
+  const toggleTrashMode = () => {
+    setTrashMode(!trashMode);
+    // Disable any ongoing dragging when entering trash mode
+    setDraggedPiece(null);
+  };
 
+  
 
   const handleMouseMove = (e) => {
     setMousePosition({ x: e.clientX, y: e.clientY });
@@ -170,6 +186,8 @@ const ChessBoardEditor = () => {
   const startDragging = (piece, color, row = null, col = null) => {
     let newBoard = boardState;
 
+    
+
     if (row !== null && col !== null) {
       // Se il pezzo proviene dalla scacchiera
       newBoard = boardState.map((r, rIdx) =>
@@ -240,10 +258,10 @@ const ChessBoardEditor = () => {
       </div>
       
 
-      <div className="chessboard-wrapper">
+      <div className={`chessboard-wrapper ${trashMode ? 'trash-mode' : ''}`}>
       
 
-              <div   className="chessboard" >
+              <div  className={`chessboard `} >
               {boardState.map((row, rowIndex) =>
                 row.map((square, colIndex) => (
                   <div
@@ -251,16 +269,31 @@ const ChessBoardEditor = () => {
                       className={`square ${
                         (rowIndex + colIndex) % 2 === 0 ? 'light' : 'dark'
                       }`}
-                      onMouseDown={(e) => e.preventDefault()} // Evita la selezione del testo
-                      onMouseUp={() =>
-                        draggedPiece && stopDragging(null, rowIndex, colIndex)
+                      onMouseDown={(e) => {e.preventDefault();
+                        if (boardState[rowIndex][colIndex]==null) {
+                          setTrashMode(state=>state=false);
+                        }
+                      }} // Evita la selezione del testo
+                      onMouseUp={() =>{
+                        draggedPiece && stopDragging(null, rowIndex, colIndex);
+                        
+                      }
                       }
                     >
                       {square && (
                         <div
-                          className="piece"
+                          className={`piece ${trashMode ? 'trash-mode' : ''}`}
+                          
                           onMouseDown={() =>
-                            startDragging(square.piece, square.color, rowIndex, colIndex)
+                          {
+                            if (trashMode && square) {
+                              handlePieceDeletion(rowIndex, colIndex);
+                            }                      
+                            else
+                              startDragging(square.piece, square.color, rowIndex, colIndex)
+                              
+                          }
+                            
                           }
                         >
                           {PIECES[square.color][square.piece]}
@@ -274,15 +307,9 @@ const ChessBoardEditor = () => {
             
                   
             <div className="buttons">
-            <button className="mybutton" onClick={clearBoard}>Clear Board</button>
-            <button className="mybutton" onClick={resetBoard}>Starting position</button>
-            <button 
-              className="mybutton" 
-              onClick={redoLastAction} 
-              disabled={historyIndex === boardHistory.length - 1}
-            >
-              Redo
-            </button>
+            <button className="mybutton" onClick={()=>{clearBoard,setTrashMode(state => state =false)}}>Clear Board</button>
+            <button className="mybutton" onClick={()=>{resetBoard(),setTrashMode(state => state =false)}}>Starting position</button>
+            
         </div>
            
 
@@ -299,20 +326,20 @@ const ChessBoardEditor = () => {
       <div className="color-selector">
   <button 
     className={`mybutton ${selectedColor === 'white' ? 'selected' : ''}`} 
-    onClick={() => setSelectedColor('white')}
+    onClick={() => {setSelectedColor('white'), setTrashMode(state => state =false)}}
   >
     White
   </button>
   <button 
     className={`mybutton ${selectedColor === 'black' ? 'selected' : ''}`} 
-    onClick={() => setSelectedColor('black')}
+    onClick={() => {setSelectedColor('black'), setTrashMode(state => state =false)}}
   >
     Black
   </button>
 </div>
 
  <div style={{display:"flex",alignItems:"center",gap:"10px", marginLeft: "130px", }}>
-  <TbArrowBackUp className='back_arrow' onClick={undoLastAction} disabled={historyIndex === 0}  style={{
+  <TbArrowBackUp className='back_arrow' onClick={()=>{undoLastAction(),setTrashMode(state => state =false)}} disabled={historyIndex === 0}  style={{
       cursor: historyIndex === 0 ? "not-allowed" : "pointer",
       color: historyIndex === 0 ? "gray" : "black",
        // Ingrandisce l'icona
@@ -337,9 +364,13 @@ const ChessBoardEditor = () => {
 
 </div>
 
-<TbTrash 
-          className="trash-icon" 
-          style={{ fontSize: '2rem', cursor: 'pointer' }} 
+        <TbTrash 
+          className={`trash-icon ${trashMode ? 'trash-active' : ''}`} 
+          style={{ 
+            fontSize: '2rem', 
+            
+          }} 
+          onClick={toggleTrashMode}
         />
 </div>
 
