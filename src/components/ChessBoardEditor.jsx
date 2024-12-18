@@ -307,7 +307,7 @@ const ChessBoardEditor = () => {
             
                   
             <div className="buttons">
-            <button className="mybutton" onClick={()=>{clearBoard,setTrashMode(state => state =false)}}>Clear Board</button>
+            <button className="mybutton" onClick={()=>{clearBoard(),setTrashMode(state => state =false)}}>Clear Board</button>
             <button className="mybutton" onClick={()=>{resetBoard(),setTrashMode(state => state =false)}}>Starting position</button>
             
         </div>
