@@ -100,9 +100,11 @@ const ChessBoardEditor = () => {
     if (!draggedPiece) return;
     const chessboard = document.querySelector('.chessboard');
     const palette = document.querySelector('.piece-palette');
+    const trashBin = document.querySelector('.trash-icon');
 
     const chessboardRect = chessboard.getBoundingClientRect();
     const paletteRect = palette.getBoundingClientRect();
+    const trashBinRect = trashBin.getBoundingClientRect();
 
     const isOutsideChessboard = 
       e.clientX < chessboardRect.left || 
@@ -116,6 +118,12 @@ const ChessBoardEditor = () => {
       e.clientY >= paletteRect.top && 
       e.clientY <= paletteRect.bottom;
 
+      const isInTrash = 
+      e.clientX >= trashBinRect.left && 
+      e.clientX <= trashBinRect.right && 
+      e.clientY >= trashBinRect.top && 
+      e.clientY <= trashBinRect.bottom;
+
     if (isOutsideChessboard) {
       if (isOnPalette && originalPosition) {
         // Se il pezzo è stato rilasciato sulla palette, aggiorniamo la scacchiera e salviamo lo stato
@@ -125,7 +133,18 @@ const ChessBoardEditor = () => {
         );
         setBoardState(newBoard);
         saveBoardState(newBoard); // Salva il nuovo stato della scacchiera
-      } else if (originalPosition) {
+      } 
+      else if (isInTrash && originalPosition) {
+        
+        const { row, col } = originalPosition;
+        const newBoard = boardState.map((r, rIdx) =>
+          r.map((c, cIdx) => (rIdx === row && cIdx === col ? null : c))
+        );
+        setBoardState(newBoard);
+        saveBoardState(newBoard);
+      }
+      
+      else if (originalPosition) {
         // Se il pezzo proviene dalla scacchiera e il rilascio avviene fuori dalla scacchiera e fuori dalla palette, ripristina il pezzo
         const { row, col, piece, color } = originalPosition;
         const newBoard = boardState.map((r, rIdx) =>
@@ -227,13 +246,7 @@ const ChessBoardEditor = () => {
     }
   };
 
-  const redoLastAction = () => {
-    if (historyIndex < boardHistory.length - 1) {
-      const newIndex = historyIndex + 1;
-      setHistoryIndex(newIndex);
-      setBoardState(boardHistory[newIndex]);
-    }
-  };
+  
 
   const clearBoard = () => {
     const emptyBoard = Array(8)
@@ -364,14 +377,11 @@ const ChessBoardEditor = () => {
 
 </div>
 
-        <TbTrash 
-          className={`trash-icon ${trashMode ? 'trash-active' : ''}`} 
-          style={{ 
-            fontSize: '2rem', 
-            
-          }} 
-          onClick={toggleTrashMode}
-        />
+    <TbTrash 
+      className={`trash-icon ${trashMode ? 'trash-active' : ''} ${draggedPiece ? 'dragging' : ''}`} 
+      style={{ fontSize: '2rem' }} 
+      onClick={toggleTrashMode} 
+    />
 </div>
 
 
