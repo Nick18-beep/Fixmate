@@ -197,8 +197,37 @@ const ChessBoardEditor = () => {
     setBoardHistory(newHistory);
     setHistoryIndex(newHistory.length - 1);
     setBoardState(newBoard);
+    logFEN(newBoard);
   };
 
+
+  const logFEN = (board) => {
+    const FEN_PIECE_MAP = {
+      king: 'k',
+      queen: 'q',
+      rook: 'r',
+      bishop: 'b',
+      knight: 'n',
+      pawn: 'p',
+    };
+    const fen = board.map(row => {
+      let emptyCount = 0;
+      return row.map(square => {
+        if (!square) {
+          emptyCount++;
+          return '';
+        } else {
+          const piece = FEN_PIECE_MAP[square.piece];
+          const symbol = square.color === 'white' ? piece.toUpperCase() : piece.toLowerCase();
+          const result = emptyCount > 0 ? `${emptyCount}${symbol}` : symbol;
+          emptyCount = 0;
+          return result;
+        }
+      }).join('') + (emptyCount > 0 ? emptyCount : '');
+    }).join('/');
+
+    console.log(`FEN: ${fen}`);
+  };
 
 
 

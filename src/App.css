@@ -11,8 +11,12 @@
 .trash-icon.dragging:hover {
   color: red ;
   transform: scale(1.5);
-  transition: transform 0.1s ease;
-  
+  transition: transform 0.1s ease; 
+}
+
+.trash-icon:hover {
+  transform: scale(1.2);
+  transition: transform 0.1s ease; 
 }
 
 .piece.trash-mode
