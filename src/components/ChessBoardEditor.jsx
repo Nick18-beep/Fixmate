@@ -56,7 +56,7 @@ const getInitialBoardState = () => {
   return board;
 };
 
-const ChessBoardEditor = () => {
+const ChessBoardEditor = (props) => {
   const initialBoard = getInitialBoardState();
   const [boardState, setBoardState] = useState(initialBoard);
   const [draggedPiece, setDraggedPiece] = useState(null);
@@ -66,6 +66,7 @@ const ChessBoardEditor = () => {
   const [selectedColor, setSelectedColor] = useState('white');
   const [originalPosition, setOriginalPosition] = useState(null);
   const [trashMode, setTrashMode] = useState(false);
+  
 
 
   const handlePieceDeletion = (row, col) => {
@@ -227,6 +228,7 @@ const ChessBoardEditor = () => {
     }).join('/');
 
     console.log(`FEN: ${fen}`);
+    props.EditFen(fen);
   };
 
 
@@ -271,6 +273,7 @@ const ChessBoardEditor = () => {
     if (historyIndex > 0) {
       const newIndex = historyIndex - 1;
       setHistoryIndex(newIndex);
+      saveBoardState(boardHistory[newIndex]);
       setBoardState(boardHistory[newIndex]);
     }
   };
@@ -286,9 +289,11 @@ const ChessBoardEditor = () => {
 
   const resetBoard = () => {
     const initialBoard = getInitialBoardState();
+    saveBoardState(initialBoard); //Aggiunto per salvare lo stato del FEN 
     setBoardState(initialBoard);
     setBoardHistory([initialBoard]);
     setHistoryIndex(0);
+    
   };
 
   return (

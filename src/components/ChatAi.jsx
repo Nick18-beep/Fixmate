@@ -16,9 +16,10 @@ const API_KEY = "AIzaSyD0lkbGI285rAoyCIzQ5GMj6ut3oxfvBAY";
 const genAI = new GoogleGenerativeAI(API_KEY);
 const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
-const ChatAi = () => {
+const ChatAi = (props) => {
   const [messages, setMessages] = useState([]);
   const [isTyping, setIsTyping] = useState(false);
+  //console.log(props.board);
 
   // Resetta la chat al caricamento iniziale
   useEffect(() => {
@@ -32,8 +33,22 @@ const ChatAi = () => {
   }, []); // Si esegue solo al primo render del componente
 
   const handleSendRequest = async (message) => {
+    let m= "";
+    if(props.status==="init"){
+      m= props.board+ " "+message; //aggiungiamo la fen al messaggio
+    }
+    else {
+      if(props.status==="edit"){//il fen è stato modificato
+        m= props.board+ " "+message; //aggiungiamo la fen al messaggio
+        props.EditStatus();
+      }
+      else{//lo stato non è stato aggiornato e il fen è rimasto lo stesso -> non devo aggiungere il fen al messaggio
+        m= message;
+      }
+  }
+    
     const newMessage = {
-      message,
+      message: m,
       direction: 'outgoing',
       sender: "user",
     };
